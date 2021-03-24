@@ -1,3 +1,4 @@
+# importing used libraries
 import pandas as pd
 import matplotlib.pyplot as plt
 from sklearn.feature_extraction.text import CountVectorizer
@@ -5,6 +6,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.naive_bayes import MultinomialNB
 import seaborn as sns
 import pickle as pkl
+
+# importing  data set and cleaning the data
 pd2 = pd.read_csv("all.csv")
 pd.set_option("display.max_columns", None)
 print(pd2.shape)
@@ -41,13 +44,16 @@ plot_name = ["ham email", "spam email", "social email"]
 plt.pie(plot_data, labels=plot_name, explode=[0.2, 0.3, 0], autopct="%0.2f%%", shadow=True)
 plt.show()
 
+#training and fitting model 1
 cv = CountVectorizer()
 xx = cv.fit_transform(x)
 
+# splitting the data
 x_train, x_test, y_train, y_test = train_test_split(xx, y, test_size=0.2, random_state=44)
 print(x_test.shape, x_train.shape)
 print(y_test.shape, y_train.shape)
 
+# training and fitting model 2
 model = MultinomialNB()
 model.fit(x_train, y_train)
 acc = model.score(x_test, y_test)
@@ -69,6 +75,7 @@ if results[0] == "social":
 
 
 
-
+#saving both the models 
 pkl.dump(cv, open('text_transform_model', 'wb'))
+pkl.dump(cv, open('spam_model', 'wb'))
 
